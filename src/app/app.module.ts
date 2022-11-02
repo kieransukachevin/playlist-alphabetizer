@@ -1,18 +1,33 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SpotifyService } from './spotify.service';
+import { LoginButtonComponent } from './login-button/login-button.component';
+import { LoginRedirectComponent } from './login-redirect/login-redirect.component';
+import { MainComponent } from './main/main.component';
+import { LogoutButtonComponent } from './logout-button/logout-button.component';
+import { PlaylistThumbnailComponent } from './playlist-thumbnail/playlist-thumbnail.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginButtonComponent,
+    LoginRedirectComponent,
+    MainComponent,
+    LogoutButtonComponent,
+    PlaylistThumbnailComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [SpotifyService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,33 @@
+.profile-area {
+    background-color: rgb(24, 24, 24);
+    padding: 20px;
+}
+.user-image {
+    display: block;
+    margin-bottom: 20px;
+}
+.meta-data {
+    display: block;
+    background-color: transparent;
+}
+tr {
+    background-color: transparent;
+    max-width: 100%;
+    margin-bottom: 20px;
+    display: block;
+    text-align: left;
+    overflow: scroll;
+}
+th, td {
+    background-color: transparent;
+    text-align: left;
+}
+td {
+    max-width: 200px;
+    overflow: scroll;
+    padding-left: 20px;
+    font-weight: lighter;
+}
+a {
+    background-color: transparent;
+}

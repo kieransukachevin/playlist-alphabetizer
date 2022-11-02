@@ -1,0 +1,56 @@
+.playlist-thumbnail-area {
+    background-color: rgb(24, 24, 24);
+    display: block;
+    max-width: 100%;
+    max-height: 200px;
+    padding: 20px;
+    margin: 20px;
+    /* text-align: left; */
+}
+.playlist-thumbnail-area:hover {
+    background-color: rgb(61, 61, 61);
+}
+.image-area {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+    height: 100%;
+    text-align: left;
+    background-color: transparent;
+}
+.title-area {
+    display: inline-block;
+    /* vertical-align: middle; */
+    width: 50%;
+    text-align: left;
+    background-color: transparent;
+}
+img {
+    /* display: inline-block; */
+    max-height: 200px;
+    display: block;
+}
+button {
+    /* text-align: left; */
+    /* background-color: transparent; */
+    font-size:x-large;
+    height: 100px;
+    width: 300px;
+}
+h1 {
+    background-color: transparent;
+    text-align: left;
+    font-size: xx-large;
+}
+p {
+    text-align: left;
+    background-color: transparent;
+}
+@media (max-width: 60em) or (orientation: portrait) {
+    h1 {
+        opacity: 0;
+    }
+    p {
+        opacity: 0;
+    }
+}
