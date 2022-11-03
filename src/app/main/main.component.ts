@@ -15,17 +15,12 @@ export class MainComponent implements OnInit {
   private body = new URLSearchParams();
   private tokenObservable: any;
   public loginStatus: boolean = false;
-  public playlists: any = [];
 
-  constructor(private spotifyService: SpotifyService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
+  constructor(private spotifyService: SpotifyService) {}
 
   ngOnInit(): void {
     this.spotifyService.getLoginStatus().subscribe(loginStatus => { // Check if logged in
       this.loginStatus = loginStatus;
-    })
-
-    if (this.loginStatus) {
-      this.playlists = this.spotifyService.getPlaylists();
-    }
+    });
   }
 }

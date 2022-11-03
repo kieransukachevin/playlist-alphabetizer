@@ -1,12 +1,7 @@
 <div *ngIf="loginStatus; else login">
     <div class="app-profile profile"></div>
     <div class="playlists-area">
-        <div class="header-area">
-            <h1>Choose a playlist to alphabetize...</h1>
-        </div>
-        <div *ngFor="let playlist of playlists">
-            <app-playlist-thumbnail [data]="playlist"></app-playlist-thumbnail>
-        </div>
+        <app-playlists-area></app-playlists-area>
     </div>
 </div>
 <ng-template #login style="display: inline-block; max-width: 50%;">

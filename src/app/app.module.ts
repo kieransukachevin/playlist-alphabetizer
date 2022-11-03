@@ -11,6 +11,7 @@ import { MainComponent } from './main/main.component';
 import { LogoutButtonComponent } from './logout-button/logout-button.component';
 import { PlaylistThumbnailComponent } from './playlist-thumbnail/playlist-thumbnail.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PlaylistsAreaComponent } from './playlists-area/playlists-area.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ProfileComponent } from './profile/profile.component';
     MainComponent,
     LogoutButtonComponent,
     PlaylistThumbnailComponent,
-    ProfileComponent
+    ProfileComponent,
+    PlaylistsAreaComponent
   ],
   imports: [
     BrowserModule,

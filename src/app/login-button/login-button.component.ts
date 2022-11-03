@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { SpotifyService } from '../spotify.service';
 declare var require: any;
 const queryString = require('query-string');
@@ -10,7 +11,7 @@ const queryString = require('query-string');
 })
 export class LoginButtonComponent implements OnInit {
   scope = 'user-read-private user-read-email';
-  redirect_uri = 'http://localhost:4200/login-redirect'; // Your redirect uri
+  private redirect_uri = environment.redirect_uri;  // Your redirect uri
 
   constructor(private spotifyService: SpotifyService) {}
 

@@ -12,7 +12,6 @@ const queryString = require('query-string');
 })
 export class LoginRedirectComponent implements OnInit {
   private accessCode: string = '';
-  redirect_uri = 'http://localhost:4200/main'; // Your redirect uri
 
   constructor(private spotifyService: SpotifyService, private route: ActivatedRoute, private http: HttpClient, private router: Router) {}
 
