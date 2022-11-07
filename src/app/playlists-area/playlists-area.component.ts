@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { SpotifyService } from '../spotify.service';
 
 @Component({
@@ -9,7 +10,6 @@ import { SpotifyService } from '../spotify.service';
 })
 export class PlaylistsAreaComponent implements OnInit {
   private loginStatus: boolean = false;
-  public togglePlaylistArea: boolean = true;
   public playlists: any = [];
   public next: boolean = false;
   public playlistId: string = "";
@@ -21,23 +21,17 @@ export class PlaylistsAreaComponent implements OnInit {
     this.spotifyService.getLoginStatus().subscribe(loginStatus => { // Check if logged in
       this.loginStatus = loginStatus;
     });
-
-    if (this.loginStatus) {
-      this.playlists = this.spotifyService.getPlaylists().playlists;
-      console.log('next is: ', this.spotifyService.getPlaylists().next);
-      if (this.spotifyService.getPlaylists().next) {
+    this.spotifyService.getPlaylistsData().subscribe(playlistsData => {
+      if (playlistsData.nextPlaylists != "") {
         this.next = true;
       } else {
         this.next = false;
       }
-    }
+      this.playlists = playlistsData.playlists;
+    })
   }
 
-  async playlistSelected(playlist: string) {
-    this.playlistId = await this.spotifyService.getPlaylist(playlist);
-    this.togglePlaylistArea = false;
-    this.playlistUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      "https://open.spotify.com/embed/playlist/" + this.playlistId + "?utm_source=generator"
-      );
+  morePlaylistsClick() {
+    this.spotifyService.loadMorePlaylists();
   }
 }

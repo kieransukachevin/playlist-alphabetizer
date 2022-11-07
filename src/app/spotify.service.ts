@@ -15,27 +15,20 @@ export class SpotifyService {
   client_secret = '66c5167e373c4e399de48fff238d191e'; // Your secret
   private redirect_uri = environment.redirect_uri;  // Your redirect uri
   public accessCode: string = '';
-  private tokenObservable: any;
   body = new URLSearchParams();
-  private loginStatus: BehaviorSubject<any>;  // BehaviorSubject which tracks login status
-  private userData = {
-    name: '', image: '', spotifyUri: ''
-  }
-  private playlistData: any = {playlists: [], next: ""};
+
+  private loginStatus = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks login status
+  private userData = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks user data
+  private playlistData = new BehaviorSubject<any>(false); // BehaviorSubject which tracks playlist data
+
+  private playlists = {nextPlaylists: '', playlists: <any>[]};
 
   constructor(private http: HttpClient) {
-    if (localStorage.getItem('accessToken')) {  // Retrieve access token if it exists
-      this.loginStatus = new BehaviorSubject<any>(true);
+    if (localStorage.getItem('accessToken')) {
+      this.logIn();
     } else {
-      this.loginStatus = new BehaviorSubject<any>(false);
+      this.logOut();
     }
-
-    this.loginStatus.subscribe(status => { // Get playlist data on successful login
-      if (status == true) {
-        this.retrieveUserData();
-        this.retrievePlaylistsData();
-      }
-    });
   }
 
   getClientId() {
@@ -46,16 +39,44 @@ export class SpotifyService {
     return this.loginStatus;
   }
 
-  getAccessToken() {
-    return localStorage.getItem('accessToken');
-  }
-
   getUserData() {
     return this.userData;
   }
 
-  getPlaylists() {
+  getPlaylistsData() {
     return this.playlistData;
+  }
+
+  getPlaylistId() {
+    return localStorage.getItem('playlistId');
+  }
+
+  /**
+  * Login
+  */
+  async logIn() {
+    await this.retrieveUserData();
+    await this.retrievePlaylistsData('https://api.spotify.com/v1/me/playlists');
+
+    this.loginStatus.next(true);
+    this.userData.next({
+      image: localStorage.getItem('userImage') || '',
+      name: localStorage.getItem('userName') || '',
+      spotifyUri: localStorage.getItem('userSpotifyUri') || ''
+    });
+    this.playlistData.next(this.playlists);
+  }
+
+  /**
+   * Logout
+   */
+  logOut() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userImage');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userSpotifyUri');
+    localStorage.removeItem('playlistId');
+    this.loginStatus.next(false);
   }
 
   /**
@@ -86,7 +107,7 @@ export class SpotifyService {
       this.body.set('code', this.accessCode);
       this.body.set('redirect_uri', this.redirect_uri);
 
-      this.tokenObservable = this.http.post(  // Create http post to spotify token endpoint
+      var tokenObservable = this.http.post(  // Create http post to spotify token endpoint
         'https://accounts.spotify.com/api/token',
         this.body.toString(), 
         {headers: new HttpHeaders()
@@ -100,9 +121,9 @@ export class SpotifyService {
       );
 
       try {
-        var observer = await this.tokenObservable.toPromise().then((data: any) => {
+        await tokenObservable.toPromise().then((data: any) => {
           localStorage.setItem('accessToken', data.access_token);
-          this.toggleLoginStatus(true);  // Notify listeners to successful login
+          this.logIn();  // Notify listeners to successful login
         });
       }
       catch(err) {
@@ -112,24 +133,9 @@ export class SpotifyService {
   }
 
   /**
-  * Toggle login status
-  */
-  toggleLoginStatus(status: boolean) {
-    this.loginStatus.next(status);
-  }
-
-  /**
-   * Logout by removing access token
-   */
-  logOut() {
-    localStorage.removeItem('accessToken');
-    this.toggleLoginStatus(false);
-  }
-
-  /**
    * Retrieve user data. Called on successful login
    */
-  retrieveUserData() {
+  async retrieveUserData() {
     var userDataObservable = this.http.get(
       'https://api.spotify.com/v1/me',
       {
@@ -142,12 +148,11 @@ export class SpotifyService {
       })
     );
 
-    var observer = userDataObservable.toPromise().then(
+    await userDataObservable.toPromise().then(
       (data: any) => {
-        console.log(data);
-        this.userData.name = data.display_name;
-        this.userData.image = data.images[0].url;
-        this.userData.spotifyUri = data.external_urls.spotify;
+        localStorage.setItem('userName', data.display_name);
+        localStorage.setItem('userImage', data.images[0].url);
+        localStorage.setItem('userSpotifyUri', data.external_urls.spotify);
       }
     )
   }
@@ -155,9 +160,9 @@ export class SpotifyService {
   /**
    * Retrieve user playlists data. Called on successful login
    */
-  retrievePlaylistsData() {
-      var userDataObservable = this.http.get(
-        'https://api.spotify.com/v1/me/playlists',
+  async retrievePlaylistsData(url: string) {
+      var playlistsDataObservable = this.http.get(
+        url,
         {
           headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
         }
@@ -168,12 +173,15 @@ export class SpotifyService {
         })
       );
   
-      var observer = userDataObservable.toPromise().then(
+      await playlistsDataObservable.toPromise().then(
         (data: any) => {
-          console.log(data);
-          this.playlistData.next = data.next;
+          if (data.next) {
+            this.playlists.nextPlaylists = data.next;
+          } else {
+            this.playlists.nextPlaylists = '';
+          }
           for (var i in data.items) {
-            this.playlistData.playlists.push(
+            this.playlists.playlists.push(
               {
                 id: data.items[i].id,
                 name: data.items[i].name,
@@ -181,10 +189,18 @@ export class SpotifyService {
                 url: data.items[i].external_urls.spotify,
                 track_total: data.items[i].tracks.total
               }
-            ); 
+            );
           }
         }
       )
+  }
+
+  /**
+   * Load the next set of playlists 
+   */
+  async loadMorePlaylists() {
+    await this.retrievePlaylistsData(this.playlists.nextPlaylists);
+    this.playlistData.next(this.playlists);
   }
 
   /**
@@ -192,16 +208,16 @@ export class SpotifyService {
    * 
    * @param playlist - the playlist name
    */
-  async getPlaylist(playlist: string): Promise<string> {
+  async setPlaylistId(playlist: string) {
     var playListId = '';
-    this.playlistData.playlists.forEach((pl: any) => {
+    this.playlists.playlists.forEach((pl: any) => {
       if (pl['name'] == playlist) {
         playListId = pl['id'];
 
       }
     });
 
-    var userDataObservable = this.http.get(
+    var playlistDataObservable = this.http.get(
       'https://api.spotify.com/v1/playlists/' + playListId,
       {
         headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
@@ -213,13 +229,59 @@ export class SpotifyService {
       })
     );
 
-    var observer = await userDataObservable.toPromise().then(
+    await playlistDataObservable.toPromise().then(
       (data: any) => {
-        console.log(data);
-        return data.id;
+        localStorage.setItem('playlistId', data.id);
       }
     )
+  }
 
-    return observer;
+  /**
+   * Alphabetize playlist
+   */
+  async alphabetizePlaylist() {
+    var playlistDataObservable = this.http.get(
+      'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId'),
+      {
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
+      }
+    ).pipe(
+      catchError((error: any) => {
+        this.logOut();
+        return throwError(error.message);
+      })
+    );
+
+    await playlistDataObservable.toPromise().then(
+      (data: any) => {
+        console.log(data);
+        for (var i = 0; i < data.tracks.items.length - 1; i++){
+          for (var k = 0; k < data.tracks.items.length - i - 1; k++) {
+            if (data.tracks.items[k].track.name > data.tracks.items[k+1].track.name) {
+              this.swapTracks(k, k+2);
+            }
+          }
+        }
+      }
+    )
+  }
+
+  swapTracks(rangeStart: number, insertBefore: number) {
+    var params = new URLSearchParams();
+    params.set('range_start', ''+rangeStart);
+    params.set('insert_before', ''+insertBefore);
+
+    console.log(params.toString());
+    var playlistDataObservable = this.http.put(
+      'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId') + '/tracks', params.toString(),
+      {
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
+      }
+    ).pipe(
+      catchError((error: any) => {
+        this.logOut();
+        return throwError(error.message);
+      })
+    );
   }
 }

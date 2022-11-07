@@ -1,20 +1,29 @@
 .profile-area {
     background-color: rgb(24, 24, 24);
-    padding: 20px;
+    padding: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
 }
 .user-image {
-    display: block;
-    margin-bottom: 20px;
+    display: inline-flex;
+    max-width: 80px;
+    border-radius: 50%;
+    float: left;
 }
 .meta-data {
-    display: block;
+    display: inline-block;
     background-color: transparent;
 }
 tr {
     background-color: transparent;
     max-width: 100%;
     margin-bottom: 20px;
-    display: block;
+    display: inline-block;
     text-align: left;
     overflow: scroll;
 }
@@ -23,11 +32,13 @@ th, td {
     text-align: left;
 }
 td {
-    max-width: 200px;
+    max-width: 300px;
     overflow: scroll;
-    padding-left: 20px;
     font-weight: lighter;
 }
 a {
     background-color: transparent;
+}
+app-logout-button {
+    
 }

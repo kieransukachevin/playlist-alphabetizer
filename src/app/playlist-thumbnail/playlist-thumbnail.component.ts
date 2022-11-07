@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SpotifyService } from '../spotify.service';
 import { Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-playlist-thumbnail',
@@ -9,16 +10,16 @@ import { Output, EventEmitter } from '@angular/core';
 })
 export class PlaylistThumbnailComponent implements OnInit {
   @Input() playlist: {name: string, image: string, url: string, track_total: string}
-  @Output() playlistSelectedEvent = new EventEmitter<string>();
 
-  constructor(private spotifyService: SpotifyService) {
+  constructor(private spotifyService: SpotifyService, private router: Router) {
     this.playlist = {name: '', image: '', url: '', track_total: ''};
   }
 
   ngOnInit(): void {
   }
 
-  thisPlaylistClicked() {
-    this.playlistSelectedEvent.emit(this.playlist.name);
+  async thisPlaylistClicked() {
+    await this.spotifyService.setPlaylistId(this.playlist.name);
+    this.router.navigate(['playlist']);
   }
 }

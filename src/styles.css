@@ -4,9 +4,11 @@
 button {
     background-color: rgb(90, 153, 90);
     border: 0;
-    border-radius: 1em;
-    height: 50px;
-    width: 100px;
+    border-radius: 2em;
+    min-width: 100px;
+    max-width: 200px;
+    min-height: 50px;
+    max-height: 100px;
     font-weight:bolder;
 }
 button:hover {
@@ -14,6 +16,9 @@ button:hover {
 }
 button:active {
     background-color: rgb(90, 153, 90);
+}
+h1 {
+    font-size: x-large;
 }
 * {
     background-color: rgb(42, 42, 42);

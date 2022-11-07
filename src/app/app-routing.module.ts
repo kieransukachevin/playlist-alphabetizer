@@ -3,9 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginRedirectComponent } from './login-redirect/login-redirect.component';
 import { MainComponent } from './main/main.component';
+import { PlaylistComponent } from './playlist/playlist.component';
 
 const routes: Routes = [
   { path: 'login-redirect', component: LoginRedirectComponent },
+  { path: 'playlist', component: PlaylistComponent},
   { path: '', component:  MainComponent }
 ];
 

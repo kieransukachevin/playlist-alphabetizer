@@ -1,4 +1,6 @@
 .main-area {
     margin: 50px;
+    margin-top: 150px;
     text-align: center;
+    display: block;
 }

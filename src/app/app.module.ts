@@ -12,6 +12,7 @@ import { LogoutButtonComponent } from './logout-button/logout-button.component';
 import { PlaylistThumbnailComponent } from './playlist-thumbnail/playlist-thumbnail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PlaylistsAreaComponent } from './playlists-area/playlists-area.component';
+import { PlaylistComponent } from './playlist/playlist.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { PlaylistsAreaComponent } from './playlists-area/playlists-area.componen
     LogoutButtonComponent,
     PlaylistThumbnailComponent,
     ProfileComponent,
-    PlaylistsAreaComponent
+    PlaylistsAreaComponent,
+    PlaylistComponent
   ],
   imports: [
     BrowserModule,
