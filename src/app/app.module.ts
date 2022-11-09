@@ -13,6 +13,7 @@ import { PlaylistThumbnailComponent } from './playlist-thumbnail/playlist-thumbn
 import { ProfileComponent } from './profile/profile.component';
 import { PlaylistsAreaComponent } from './playlists-area/playlists-area.component';
 import { PlaylistComponent } from './playlist/playlist.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { PlaylistComponent } from './playlist/playlist.component';
     PlaylistThumbnailComponent,
     ProfileComponent,
     PlaylistsAreaComponent,
-    PlaylistComponent
+    PlaylistComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

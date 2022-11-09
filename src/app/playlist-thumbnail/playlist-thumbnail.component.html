@@ -1,9 +1,7 @@
 <div class="playlist-thumbnail-area" (click)="thisPlaylistClicked()">
-    <div class="image-area">
-        <img src="{{playlist.image}}">
-    </div>
+    <img src="{{playlist.image}}" class="image-area">
     <div class="title-area">
-        <h1>{{playlist.name}}</h1>
+        <h2>{{playlist.name}}</h2>
         <p>
             Total tracks: {{playlist.track_total}}
         </p>

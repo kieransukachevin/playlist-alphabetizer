@@ -1,7 +1,13 @@
-.header-area {
-    width: 100%;
+.load-button {
+    margin: 10px
 }
 h2 {
     /* text-align: left; */
     margin-left: 20px;
+}
+@media (min-width: 60em) {
+    .thumbnail-area {
+        height: 200px;
+        width: 100%;
+    }
 }

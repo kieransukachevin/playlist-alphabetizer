@@ -1,7 +1,13 @@
-<div class="top-area">
-    <button (click)="back()" class="back-button">Back</button>
-    <button (click)="alphabetize()" class="alphabetize-button">Alphabetize</button>
+<div style="height: 90%" *ngIf="playlistLoaded; else loading">
+    <iframe [src]="playlistUrl"
+    width="100%" height="100%" frameBorder="0" allowfullscreen="" 
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>  
+    <div class="button-area">
+        <button (click)="alphabetize()" class="alphabetize-button">Alphabetize</button>
+    </div>  
 </div>
-<iframe style="border-radius:12px; margin-top: 20px" [src]="playlistUrl" 
-width="100%" height="500" frameBorder="0" allowfullscreen="" 
-allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<ng-template #loading>
+    <div class="loading-area">
+        <div class="loader"></div>
+    </div>
+</ng-template>

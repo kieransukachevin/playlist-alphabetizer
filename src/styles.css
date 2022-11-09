@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap");
 
+body {
+    margin: 0;
+}
 button {
     background-color: rgb(90, 153, 90);
     border: 0;
@@ -9,7 +12,7 @@ button {
     max-width: 200px;
     min-height: 50px;
     max-height: 100px;
-    font-weight:bolder;
+    font-size: small;
 }
 button:hover {
     background-color: rgb(119, 173, 119);
@@ -20,11 +23,24 @@ button:active {
 h1 {
     font-size: x-large;
 }
-* {
-    background-color: rgb(42, 42, 42);
-    text-align: center;
+h2 {
+    background-color: transparent;
     font-size: medium;
+    font-weight: bold;
+    text-align: left;
+}
+a {
+    background-color: transparent;
+}
+a:hover {
+    opacity: 0.7;
+}
+* {
+    /* background-color: rgb(42, 42, 42); */
+    background-color: rgb(24, 24, 24);
+    text-align: center;
+    font-size: small;
     color: rgb(250, 250, 250);
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
     font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
