@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Buffer } from 'buffer';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from './../environments/environment';
+// declare var require: any;
+// const axios = require('axios').default;
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,13 @@ export class SpotifyService {
   client_secret = '66c5167e373c4e399de48fff238d191e'; // Your secret
   private redirect_uri = environment.redirect_uri;  // Your redirect uri
   public accessCode: string = '';
+  private refreshToken: string = '';
   body = new URLSearchParams();
 
   private loginStatus = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks login status
   private userData = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks user data
   private playlistData = new BehaviorSubject<any>(false); // BehaviorSubject which tracks playlist data
+  private playlistId = new BehaviorSubject<any>(false); // BehaviorSubject which tracks current playlist
 
   private playlists = {nextPlaylists: '', playlists: <any>[]};
 
@@ -48,7 +50,7 @@ export class SpotifyService {
   }
 
   getPlaylistId() {
-    return localStorage.getItem('playlistId');
+    return this.playlistId;
   }
 
   /**
@@ -65,6 +67,7 @@ export class SpotifyService {
       spotifyUri: localStorage.getItem('userSpotifyUri') || ''
     });
     this.playlistData.next(this.playlists);
+    this.playlistId.next(localStorage.getItem('playlistId'));
   }
 
   /**
@@ -123,6 +126,8 @@ export class SpotifyService {
       try {
         await tokenObservable.toPromise().then((data: any) => {
           localStorage.setItem('accessToken', data.access_token);
+          this.refreshToken = data.refresh_token;
+          localStorage.setItem('refreshToken', data.refresh_token);
           this.logIn();  // Notify listeners to successful login
         });
       }
@@ -208,7 +213,8 @@ export class SpotifyService {
    * 
    * @param playlist - the playlist name
    */
-  async setPlaylistId(playlist: string) {
+  async retrievePlaylistId(playlist: string) {
+    this.playlistId.next(false);
     var playListId = '';
     this.playlists.playlists.forEach((pl: any) => {
       if (pl['name'] == playlist) {
@@ -232,6 +238,7 @@ export class SpotifyService {
     await playlistDataObservable.toPromise().then(
       (data: any) => {
         localStorage.setItem('playlistId', data.id);
+        this.playlistId.next(localStorage.getItem('playlistId'));
       }
     )
   }
@@ -253,12 +260,12 @@ export class SpotifyService {
     );
 
     await playlistDataObservable.toPromise().then(
-      (data: any) => {
+      async (data: any) => {
         console.log(data);
         for (var i = 0; i < data.tracks.items.length - 1; i++){
           for (var k = 0; k < data.tracks.items.length - i - 1; k++) {
             if (data.tracks.items[k].track.name > data.tracks.items[k+1].track.name) {
-              this.swapTracks(k, k+2);
+              await this.swapTracks(k, k+2, data.snapshot_id);
             }
           }
         }
@@ -266,16 +273,47 @@ export class SpotifyService {
     )
   }
 
-  swapTracks(rangeStart: number, insertBefore: number) {
+  /**
+   * Spotify http request to swap tracks in a playlist
+   * 
+   * @param rangeStart 
+   * @param insertBefore 
+   */
+  async swapTracks(rangeStart: number, insertBefore: number, snapshotId: string) {
+    var newBody = new URLSearchParams();
+    newBody.set('grant_type', 'refresh_token');  // URL parameters for getting access token
+    newBody.set('refresh_token', this.refreshToken);
+
+    var tokenObservable = this.http.post(  // Create http post to spotify token endpoint
+      'https://accounts.spotify.com/api/token',
+      newBody.toString(), 
+      {headers: new HttpHeaders()
+        .set(
+          'Authorization', 'Basic ' + (Buffer.from(this.client_id + ':' + this.client_secret).toString('base64'))
+        )
+        .set(
+          'Content-Type', 'application/x-www-form-urlencoded'
+        )
+      }
+    );
+
+    await tokenObservable.toPromise().then((data: any) => {
+      localStorage.setItem('accessToken', data.access_token);
+    });
+
     var params = new URLSearchParams();
     params.set('range_start', ''+rangeStart);
     params.set('insert_before', ''+insertBefore);
+    params.set('range_length', '1');
+    params.set('snapshot_id', snapshotId);
 
     console.log(params.toString());
     var playlistDataObservable = this.http.put(
-      'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId') + '/tracks', params.toString(),
-      {
-        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
+      'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId') + '/tracks?' + params.toString(),
+      {headers: new HttpHeaders()
+        .set(
+          'Authorization', 'Bearer ' + localStorage.getItem('accessToken')
+        )
       }
     ).pipe(
       catchError((error: any) => {
@@ -283,5 +321,28 @@ export class SpotifyService {
         return throwError(error.message);
       })
     );
+    // var playlistDataObservable = await axios.put(
+    //   'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId') + '/tracks',
+    //   {
+    //     range_start: ''+rangeStart,
+    //     insert_before: ''+insertBefore,
+    //     snapshot_id: snapshotId
+    //   },
+    //   {
+    //     headers: {
+    //       Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+    //     }
+    //   }
+    // )
+
+    await playlistDataObservable.toPromise().then(
+      (data: any) => {
+        console.log(data);
+      }
+    ).catch(
+      (reason: any) => {
+        console.log(reason);
+      }
+    )
   }
 }

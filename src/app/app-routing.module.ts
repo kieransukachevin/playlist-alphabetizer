@@ -7,7 +7,6 @@ import { PlaylistComponent } from './playlist/playlist.component';
 
 const routes: Routes = [
   { path: 'login-redirect', component: LoginRedirectComponent },
-  { path: 'playlist', component: PlaylistComponent},
   { path: '', component:  MainComponent }
 ];
 

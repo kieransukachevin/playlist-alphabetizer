@@ -1,11 +1,30 @@
-.profile {
+.main-area {
+    height: 800px;
+    width: 100%; 
+    display: block;
+}
+.profile-area {
+    /* background-color: rgb(24, 24, 24); */
+    background-color: rgb(37, 37, 37);
     width: 100%;
+    height: 10%;
     overflow: hidden;
     display: block;
 }
 .playlists-area {
-    /* max-width: 50%; */
+    background-color: rgb(24, 24, 24);
+    width: 30%;
+    height: 90%;
+    vertical-align: top;
+    overflow-y:auto;
+    display: inline-block;
+}
+.playlist-area {
+    width: 70%;
+    height: 90%;
+    background-color: rgb(24, 24, 24);
+    display: inline-block;
+}
+.footer-area {
     display: block;
-    /* margin-left: 30%; */
-    margin-top: 100px;
 }

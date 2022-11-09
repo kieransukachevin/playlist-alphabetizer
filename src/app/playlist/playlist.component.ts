@@ -11,21 +11,24 @@ import {Location} from '@angular/common';
 export class PlaylistComponent implements OnInit {
   @Input() playlist: string = '';
   public playlistUrl: SafeUrl = '';
+  public playlistLoaded: boolean = false;
 
   constructor(private sanitizer: DomSanitizer, private spotifyService: SpotifyService, private _location: Location) { }
 
   async ngOnInit() {
-    this.playlistUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      "https://open.spotify.com/embed/playlist/" + this.spotifyService.getPlaylistId() + "?utm_source=generator"
-      );
+    this.spotifyService.getPlaylistId().subscribe(playlistId => {
+      if (!playlistId) {
+        this.playlistLoaded = false;
+      } else {
+        this.playlistUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+          "https://open.spotify.com/embed/playlist/" + playlistId + "?utm_source=generator"
+        );
+        this.playlistLoaded = true;
+      }
+    });
   }
 
   alphabetize() {
     this.spotifyService.alphabetizePlaylist();
   }
-
-  back() {
-    this._location.back();
-  }
-
 }

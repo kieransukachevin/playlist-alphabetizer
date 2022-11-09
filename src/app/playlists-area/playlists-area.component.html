@@ -1,9 +1,6 @@
-<div class="header-area">
-    <h2>Choose a playlist to alphabetize:</h2>
-</div>
-<div *ngFor="let playlist of playlists">
+<div style="background-color: rgb(24, 24, 24);" *ngFor="let playlist of playlists">
     <app-playlist-thumbnail [playlist]="playlist"></app-playlist-thumbnail>
 </div>
 <ng-container *ngIf="next">
-    <button (click)="morePlaylistsClick()">Load More Playlists</button>
+    <button (click)="morePlaylistsClick()" class="load-button">Load More Playlists</button>
 </ng-container>

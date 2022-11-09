@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SpotifyService } from '../spotify.service';
 
 @Component({
-  selector: '.app-profile',
+  selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })

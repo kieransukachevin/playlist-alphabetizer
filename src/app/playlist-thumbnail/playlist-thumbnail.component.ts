@@ -15,11 +15,9 @@ export class PlaylistThumbnailComponent implements OnInit {
     this.playlist = {name: '', image: '', url: '', track_total: ''};
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async thisPlaylistClicked() {
-    await this.spotifyService.setPlaylistId(this.playlist.name);
-    this.router.navigate(['playlist']);
+    await this.spotifyService.retrievePlaylistId(this.playlist.name);
   }
 }
