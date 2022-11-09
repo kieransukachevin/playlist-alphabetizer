@@ -1,7 +1,8 @@
 .playlist-thumbnail-area {
     background-color: rgb(24, 24, 24);
+    height: 100%;
+    width: 100%;
     display: block;
-    max-width: 100%;
 }
 .playlist-thumbnail-area:hover {
     background-color: rgb(61, 61, 61);
@@ -12,6 +13,7 @@
     width: 50%;
     text-align: left;
     background-color: transparent;
+    max-height: 100%;
 }
 .title-area {
     display: inline-block;
@@ -20,10 +22,6 @@
     text-align: left;
     overflow: hidden;
     background-color: transparent;
-}
-img {
-    max-height: 100%;
-    display: block;
 }
 button {
     font-size:x-large;
@@ -36,10 +34,14 @@ p {
     background-color: transparent;
 }
 @media (max-width: 60em) or (orientation: portrait) {
-    h2 {
-        opacity: 0;
+    .title-area {
+        display: none;
     }
-    p {
-        opacity: 0;
+    .image-area {
+        display: flex;
+        margin: auto;
+    }
+    .playlist-thumbnail-area:hover .title-area {
+        display: block;
     }
 }

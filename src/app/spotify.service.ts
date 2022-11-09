@@ -59,6 +59,7 @@ export class SpotifyService {
   async logIn() {
     await this.retrieveUserData();
     await this.retrievePlaylistsData('https://api.spotify.com/v1/me/playlists');
+    await this.retrievePlaylistId(this.playlists.playlists[0].name);
 
     this.loginStatus.next(true);
     this.userData.next({

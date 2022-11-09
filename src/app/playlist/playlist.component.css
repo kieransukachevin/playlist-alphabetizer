@@ -1,5 +1,5 @@
 .button-area {
-    margin-top: 20px;
+    margin: 10px;
     max-height: 10%;
     background-color: transparent;
 }
@@ -9,7 +9,10 @@
 }
 .alphabetize-button {
     margin-right: 30px;
-    float: right;
+    /* float: right; */
+}
+.loading-area {
+    margin-top: 20px;
 }
 .loader {
     border: 3px solid #f3f3f3;
