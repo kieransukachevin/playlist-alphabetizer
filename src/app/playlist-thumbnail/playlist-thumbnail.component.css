@@ -4,25 +4,6 @@
     width: 100%;
     display: block;
 }
-.playlist-thumbnail-area:hover {
-    background-color: rgb(61, 61, 61);
-}
-.image-area {
-    display: inline-block;
-    vertical-align: top;
-    width: 50%;
-    text-align: left;
-    background-color: transparent;
-    max-height: 100%;
-}
-.title-area {
-    display: inline-block;
-    width: 40%;
-    margin-left: 10px;
-    text-align: left;
-    overflow: hidden;
-    background-color: transparent;
-}
 button {
     font-size:x-large;
     height: 100px;
@@ -33,15 +14,37 @@ p {
     text-align: left;
     background-color: transparent;
 }
-@media (max-width: 60em) or (orientation: portrait) {
+.image-area {
+    display: flex;
+    max-width: 50%;
+    vertical-align: top;
+    margin: auto;
+    background-color: transparent;
+    max-height: 100%;
+}
+.title-area {
+    width: 40%;
+    margin-left: 10px;
+    background-color: transparent;
+    display: none;
+}
+.playlist-thumbnail-area:hover {
+    background-color: rgb(61, 61, 61);
+}
+.playlist-thumbnail-area:hover .title-area {
+    display: block;
+}
+@media (min-width: 768px) and (orientation: landscape) {
+    .playlist-thumbnail-area:hover .title-area {
+        display: inline-block;
+    }
     .title-area {
-        display: none;
+        text-align: left;
+        display: inline-block;
+        overflow: hidden;
     }
     .image-area {
-        display: flex;
-        margin: auto;
-    }
-    .playlist-thumbnail-area:hover .title-area {
-        display: block;
+        display: inline-block;
+        text-align: left;
     }
 }

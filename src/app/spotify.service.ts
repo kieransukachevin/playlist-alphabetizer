@@ -4,9 +4,6 @@ import { HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http'
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from './../environments/environment';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-// declare var require: any;
-// const axios = require('axios').default;
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +20,7 @@ export class SpotifyService {
   private userData = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks user data
   private playlistData = new BehaviorSubject<any>(false); // BehaviorSubject which tracks playlist data
   private playlistId = new BehaviorSubject<any>(false); // BehaviorSubject which tracks current playlist
+  private playlistInfo = new BehaviorSubject<any>(false); // BehaviorSubject which tracks current playlist info
 
   private playlists = {nextPlaylists: '', playlists: <any>[]};
 
@@ -54,13 +52,17 @@ export class SpotifyService {
     return this.playlistId;
   }
 
+  getPlaylistInfo() {
+    return this.playlistInfo;
+  }
+
   /**
   * Login
   */
   async logIn() {
     await this.retrieveUserData();
     await this.retrievePlaylistsData('https://api.spotify.com/v1/me/playlists');
-    await this.retrievePlaylistId(this.playlists.playlists[0].name);
+    await this.retrievePlaylistInfo(this.playlists.playlists[0].name);
 
     this.loginStatus.next(true);
     this.userData.next({
@@ -194,6 +196,30 @@ export class SpotifyService {
     this.playlistData.next(this.playlists);
   }
 
+  async retrievePlaylistInfo(playlistName: string) {
+    this.playlistInfo.next(false);
+    var playListId = '';
+    this.playlists.playlists.forEach((pl: any) => {
+      if (pl['name'] == playlistName) {
+        playListId = pl['id'];
+      }
+    });
+
+    await this.http.get(
+      'https://api.spotify.com/v1/playlists/' + playListId,
+      {
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
+      }
+    ).pipe(
+      catchError(this.handleError)
+    ).toPromise().then(
+      (data: any) => {
+        localStorage.setItem('playlistId', data.id);
+        this.playlistInfo.next(data);
+      }
+    )
+  }
+
   /**
    * Retrieve playlist data
    * 
@@ -205,7 +231,6 @@ export class SpotifyService {
     this.playlists.playlists.forEach((pl: any) => {
       if (pl['name'] == playlist) {
         playListId = pl['id'];
-
       }
     });
 
@@ -228,6 +253,7 @@ export class SpotifyService {
    * Alphabetize playlist
    */
   async alphabetizePlaylist() {
+    var name: string = '';
     var original: any;
     var alphabetized: any;
 
@@ -240,6 +266,7 @@ export class SpotifyService {
       catchError(this.handleError)
     ).toPromise().then(
       (data: any) => {
+        name = data.name;
         alphabetized = { ...data.tracks.items };
         original = { ...data.tracks.items };
       },
@@ -261,14 +288,13 @@ export class SpotifyService {
       }
     }
 
-    console.log(alphabetized);
-    console.log(original);
-
     var uris = new Array<string>();
     for (var i = 0; i < size; i++) {
       uris.push(alphabetized[i].track.uri);
     }
     await this.replaceTracks(localStorage.getItem('playlistId'), uris);
+
+    await this.retrievePlaylistInfo(name);
   }
 
   /**
@@ -298,26 +324,6 @@ export class SpotifyService {
         console.log(error);
       }
     );
-
-
-    await this.http.get(
-      'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId'),
-      {
-        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
-      }
-    ).pipe(
-      catchError(this.handleError)
-    ).toPromise().then(
-      (data: any) => {
-        for (var i = 0; i < data.tracks.items.length; i++) {
-          console.log(data.tracks.items[i].track.name);
-        }
-      },
-      (error: any) => {
-        this.logOut();
-        alert(error);
-      }
-    )
   }
 
   /**

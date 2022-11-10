@@ -9,26 +9,25 @@ import {Location} from '@angular/common';
   styleUrls: ['./playlist.component.css']
 })
 export class PlaylistComponent implements OnInit {
-  @Input() playlist: string = '';
-  public playlistUrl: SafeUrl = '';
+  public playlistName: string = '';
   public playlistLoaded: boolean = false;
+  public playlist = new Array();
 
   constructor(private sanitizer: DomSanitizer, private spotifyService: SpotifyService, private _location: Location) { }
 
   async ngOnInit() {
-    this.spotifyService.getPlaylistId().subscribe(playlistId => {
-      if (!playlistId) {
-        this.playlistLoaded = false;
-      } else {
-        this.playlistUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-          "https://open.spotify.com/embed/playlist/" + playlistId + "?utm_source=generator"
-        );
+    this.spotifyService.getPlaylistInfo().subscribe((playlist:any) => {
+      if (playlist) {
         this.playlistLoaded = true;
+        this.playlistName = playlist.name;
+        this.playlist = playlist.tracks.items;
+      } else {
+        this.playlistLoaded = false;
       }
     });
   }
 
-  alphabetize() {
-    this.spotifyService.alphabetizePlaylist();
+  async alphabetize() {
+    await this.spotifyService.alphabetizePlaylist();
   }
 }

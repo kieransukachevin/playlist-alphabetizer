@@ -5,7 +5,7 @@ h2 {
     /* text-align: left; */
     margin-left: 20px;
 }
-@media (min-width: 60em) {
+@media (min-width: 768px) and (orientation: landscape) {
     .thumbnail-area {
         height: 200px;
         width: 100%;
