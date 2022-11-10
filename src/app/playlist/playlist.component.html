@@ -14,7 +14,7 @@
           <td>{{song.track.name}}</td>
           <td>{{song.track.album.name}}</td>
           <td>{{song.track.artists[0].name}}</td>
-          <td>{{song.track.duration_ms}}</td>
+          <td>{{millisToMinutesAndSeconds(song.track.duration_ms)}}</td>
         </tr>
       </ng-container>
   </table>
