@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Buffer } from 'buffer';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from './../environments/environment';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 // declare var require: any;
 // const axios = require('axios').default;
 
@@ -111,7 +112,7 @@ export class SpotifyService {
       this.body.set('code', this.accessCode);
       this.body.set('redirect_uri', this.redirect_uri);
 
-      var tokenObservable = this.http.post(  // Create http post to spotify token endpoint
+      await this.http.post(  // Create http post to spotify token endpoint
         'https://accounts.spotify.com/api/token',
         this.body.toString(), 
         {headers: new HttpHeaders()
@@ -122,39 +123,28 @@ export class SpotifyService {
             'Content-Type', 'application/x-www-form-urlencoded'
           )
         }
-      );
-
-      try {
-        await tokenObservable.toPromise().then((data: any) => {
+      ).pipe(
+        catchError(this.handleError)
+      ).toPromise().then((data: any) => {
           localStorage.setItem('accessToken', data.access_token);
           this.refreshToken = data.refresh_token;
           localStorage.setItem('refreshToken', data.refresh_token);
           this.logIn();  // Notify listeners to successful login
         });
-      }
-      catch(err) {
-        console.log(err);
-        this.logOut();  // Logout (end sesssion with current access token)
-      }
   }
 
   /**
    * Retrieve user data. Called on successful login
    */
   async retrieveUserData() {
-    var userDataObservable = this.http.get(
+    await this.http.get(
       'https://api.spotify.com/v1/me',
       {
         headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
       }
     ).pipe(
-      catchError((error: any) => {
-        this.logOut();
-        return throwError(error.message);
-      })
-    );
-
-    await userDataObservable.toPromise().then(
+      catchError(this.handleError)
+    ).toPromise().then(
       (data: any) => {
         localStorage.setItem('userName', data.display_name);
         localStorage.setItem('userImage', data.images[0].url);
@@ -167,19 +157,14 @@ export class SpotifyService {
    * Retrieve user playlists data. Called on successful login
    */
   async retrievePlaylistsData(url: string) {
-      var playlistsDataObservable = this.http.get(
+      await this.http.get(
         url,
         {
           headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
         }
       ).pipe(
-        catchError((error: any) => {
-          this.logOut();
-          return throwError(error.message);
-        })
-      );
-  
-      await playlistsDataObservable.toPromise().then(
+        catchError(this.handleError)
+      ).toPromise().then(
         (data: any) => {
           if (data.next) {
             this.playlists.nextPlaylists = data.next;
@@ -224,19 +209,14 @@ export class SpotifyService {
       }
     });
 
-    var playlistDataObservable = this.http.get(
+    await this.http.get(
       'https://api.spotify.com/v1/playlists/' + playListId,
       {
         headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
       }
     ).pipe(
-      catchError((error: any) => {
-        this.logOut();
-        return throwError(error.message);
-      })
-    );
-
-    await playlistDataObservable.toPromise().then(
+      catchError(this.handleError)
+    ).toPromise().then(
       (data: any) => {
         localStorage.setItem('playlistId', data.id);
         this.playlistId.next(localStorage.getItem('playlistId'));
@@ -248,102 +228,117 @@ export class SpotifyService {
    * Alphabetize playlist
    */
   async alphabetizePlaylist() {
-    var playlistDataObservable = this.http.get(
+    var original: any;
+    var alphabetized: any;
+
+    await this.http.get(
       'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId'),
       {
         headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
       }
     ).pipe(
-      catchError((error: any) => {
+      catchError(this.handleError)
+    ).toPromise().then(
+      (data: any) => {
+        alphabetized = { ...data.tracks.items };
+        original = { ...data.tracks.items };
+      },
+      (error: any) => {
         this.logOut();
-        return throwError(error.message);
-      })
-    );
-
-    await playlistDataObservable.toPromise().then(
-      async (data: any) => {
-        console.log(data);
-        for (var i = 0; i < data.tracks.items.length - 1; i++){
-          for (var k = 0; k < data.tracks.items.length - i - 1; k++) {
-            if (data.tracks.items[k].track.name > data.tracks.items[k+1].track.name) {
-              await this.swapTracks(k, k+2, data.snapshot_id);
-            }
-          }
-        }
+        alert(error);
       }
     )
+
+    // Sort alphabetically
+    var size = Object.keys(alphabetized).length;
+    for (var i = 0; i < size - 1; i++){
+      for (var k = 0; k < size - i - 1; k++) {
+        if (alphabetized[k].track.name > alphabetized[k+1].track.name) {
+          var temp = alphabetized[k];
+          alphabetized[k] = alphabetized[k+1];
+          alphabetized[k+1] = temp;
+        }
+      }
+    }
+
+    console.log(alphabetized);
+    console.log(original);
+
+    var uris = new Array<string>();
+    for (var i = 0; i < size; i++) {
+      uris.push(alphabetized[i].track.uri);
+    }
+    await this.replaceTracks(localStorage.getItem('playlistId'), uris);
   }
 
   /**
    * Spotify http request to swap tracks in a playlist
    * 
-   * @param rangeStart 
-   * @param insertBefore 
+   * @param uris
    */
-  async swapTracks(rangeStart: number, insertBefore: number, snapshotId: string) {
-    var newBody = new URLSearchParams();
-    newBody.set('grant_type', 'refresh_token');  // URL parameters for getting access token
-    newBody.set('refresh_token', this.refreshToken);
-
-    var tokenObservable = this.http.post(  // Create http post to spotify token endpoint
-      'https://accounts.spotify.com/api/token',
-      newBody.toString(), 
-      {headers: new HttpHeaders()
-        .set(
-          'Authorization', 'Basic ' + (Buffer.from(this.client_id + ':' + this.client_secret).toString('base64'))
-        )
-        .set(
-          'Content-Type', 'application/x-www-form-urlencoded'
-        )
-      }
-    );
-
-    await tokenObservable.toPromise().then((data: any) => {
-      localStorage.setItem('accessToken', data.access_token);
-    });
-
-    var params = new URLSearchParams();
-    params.set('range_start', ''+rangeStart);
-    params.set('insert_before', ''+insertBefore);
-    params.set('range_length', '1');
-    params.set('snapshot_id', snapshotId);
-
-    console.log(params.toString());
-    var playlistDataObservable = this.http.put(
-      'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId') + '/tracks?' + params.toString(),
+  async replaceTracks(playlistId: any, uris: any[]) {
+    const params = {
+      uris: uris,
+    }
+    
+    await this.http.put(
+      'https://api.spotify.com/v1/playlists/' + playlistId + '/tracks',
+      params,
       {headers: new HttpHeaders()
         .set(
           'Authorization', 'Bearer ' + localStorage.getItem('accessToken')
         )
       }
     ).pipe(
-      catchError((error: any) => {
-        this.logOut();
-        return throwError(error.message);
-      })
-    );
-    // var playlistDataObservable = await axios.put(
-    //   'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId') + '/tracks',
-    //   {
-    //     range_start: ''+rangeStart,
-    //     insert_before: ''+insertBefore,
-    //     snapshot_id: snapshotId
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
-    //     }
-    //   }
-    // )
-
-    await playlistDataObservable.toPromise().then(
+      catchError(this.handleError)
+    ).toPromise().then(
       (data: any) => {
-        console.log(data);
+        console.log('success:',data);
+      }, (error: any) => {
+        console.log(error);
       }
-    ).catch(
-      (reason: any) => {
-        console.log(reason);
+    );
+
+
+    await this.http.get(
+      'https://api.spotify.com/v1/playlists/' + localStorage.getItem('playlistId'),
+      {
+        headers: { 'Authorization': 'Bearer ' + localStorage.getItem('accessToken') }
+      }
+    ).pipe(
+      catchError(this.handleError)
+    ).toPromise().then(
+      (data: any) => {
+        for (var i = 0; i < data.tracks.items.length; i++) {
+          console.log(data.tracks.items[i].track.name);
+        }
+      },
+      (error: any) => {
+        this.logOut();
+        alert(error);
       }
     )
+  }
+
+  /**
+   * Handles error returned by http promise
+   * 
+   * @param error: error returned from http request
+   * @returns 
+   */
+  handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `, error.error);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(() => {
+      new Error('Something bad happened; please try again later.');
+    });
   }
 }

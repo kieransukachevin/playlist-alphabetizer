@@ -10,9 +10,7 @@ const queryString = require('query-string');
   styleUrls: ['./login-button.component.css']
 })
 export class LoginButtonComponent implements OnInit {
-  scope = `user-read-private user-read-email playlist-modify-private playlist-modify-public 
-  user-read-recently-played user-read-playback-state user-modify-playback-state 
-  playlist-modify-private playlist-modify-public playlist-read-private streaming`;
+  scope = `user-read-private user-read-email playlist-modify-private playlist-modify-public`;
   private redirect_uri = environment.redirect_uri;  // Your redirect uri
 
   constructor(private spotifyService: SpotifyService) {}
