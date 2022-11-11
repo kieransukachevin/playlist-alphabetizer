@@ -1,4 +1,8 @@
 # Playlist Alphabetizer
+An Angular web app that alphabetizes your Spotify playlists.
+
+<!-- ![caption](src/assets/playlist-alphabetizer.gif) -->
+<img src="src/assets/playlist-alphabetizer.gif" width="800"/>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.11.
 
