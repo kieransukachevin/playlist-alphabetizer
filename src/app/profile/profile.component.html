@@ -1,6 +1,11 @@
 <div class="user-image">
-    <img src="{{userData.image}}">
+    <img class="user" src="{{userData.image}}">
     <h2>{{userData.name}}</h2>
 </div>
-<h1>Playlist Alphabetizer</h1>
+<div class="title-area">
+    <a href="https://open.spotify.com/"><img style="height: 42px; background-color: transparent; margin-top: 10px;" src="assets/Spotify_Logo_RGB_Green.png"></a>
+    <div class="title" (click)="playlistAlphabetizerClicked()">
+        <h2>Playlist Alphabetizer</h2>
+    </div>
+</div>
 <app-logout-button class="logout-button"></app-logout-button>

@@ -19,13 +19,14 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.spotifyService.getLoginStatus().subscribe(loginStatus => { // Check if logged in
       this.loginStatus = loginStatus;
-      // if (this.loginStatus) {
-      //   this.userData = this.spotifyService.getUserData();
-      // }
     })
     this.spotifyService.getUserData().subscribe(userData => {
       this.userData = userData;
     })
+  }
+
+  playlistAlphabetizerClicked() {
+    this.spotifyService.logOut();
   }
 
 }

@@ -1,26 +1,28 @@
-<div style="height: 90%; background-color: transparent; display: block" *ngIf="playlistLoaded; else loading">
-  <h2>{{playlistName}}</h2>
-  <table style="background-color: transparent; width: 100%">
-      <tr>
-        <th></th>
-        <th>Track</th>
-        <th>Album</th>
-        <th>Artist</th>
-        <th>Duration</th>
-      </tr>
-      <ng-container *ngFor="let song of playlist">
-        <tr>
-          <td style="width: 32px"><img style="width: 32px" src="{{song.track.album.images[2].url}}"></td>
-          <td>{{song.track.name}}</td>
-          <td>{{song.track.album.name}}</td>
-          <td>{{song.track.artists[0].name}}</td>
-          <td>{{millisToMinutesAndSeconds(song.track.duration_ms)}}</td>
-        </tr>
-      </ng-container>
-  </table>
-  <div class="button-area" *ngIf="playlistLoaded">
-    <button (click)="alphabetize()" class="alphabetize-button">Alphabetize</button>
+<div style="height: 90%; background-color: transparent; display: block;" *ngIf="playlistLoaded; else loading">
+  <div style="display: block; background-color: transparent;" *ngIf="playlistLoaded">
+    <div class="title-area" (click)="fieldClicked(playlistUrl)">
+      <h1>{{playlistName}}</h1>
+    </div>
+    <button (click)="alphabetize()" class="alphabetize-button">Alphabetize</button>  
   </div>
+  <table style="background-color: transparent; width: 100%; margin-top: 10px;">
+    <tr>
+      <th></th>
+      <th>Track</th>
+      <th>Album</th>
+      <th>Artist</th>
+      <th>Duration</th>
+    </tr>
+    <ng-container *ngFor="let song of playlist">
+      <tr>
+        <td style="width: 32px"><img style="width: 32px" src="{{song.track.album.images[2].url}}"></td>
+        <td class="clickable-field" (click)="fieldClicked(song.track.external_urls.spotify)">{{song.track.name}}</td>
+        <td class="clickable-field" (click)="fieldClicked(song.track.album.external_urls.spotify)">{{song.track.album.name}}</td>
+        <td class="clickable-field" (click)="fieldClicked(song.track.artists[0].external_urls.spotify)">{{song.track.artists[0].name}}</td>
+        <td>{{millisToMinutesAndSeconds(song.track.duration_ms)}}</td>  
+      </tr>
+    </ng-container>
+  </table>
 </div>
 <ng-template #loading>
     <div class="loading-area">

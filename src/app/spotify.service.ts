@@ -77,7 +77,7 @@ export class SpotifyService {
   /**
    * Logout
    */
-  logOut() {
+  logOut() { 
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userImage');
     localStorage.removeItem('userName');

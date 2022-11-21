@@ -13,28 +13,36 @@
 a {
     background-color: transparent;
 }
-h1 {
+.title-area {
     background-color: transparent;
     display: inline-flex;
-    margin-top: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.title {
+    background-color: transparent;
+}
+.title:hover {
+    cursor: pointer;
+    background-color: rgb(61, 61, 61);
 }
 h2 {
     display: none;
 }
-img {
+.user {
     max-width: 60px;
     border-radius: 50%;
 }
 .logout-button {
+    height: 100%;
     display: inline-flex;
     float: right;
     background-color: transparent;
-    margin-right: 20px;
-    margin-top: 20px;
 }
 @media (min-width: 768px) and (orientation: landscape) {
     h2 {
-        margin-left: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
         display: block;
     }
 }

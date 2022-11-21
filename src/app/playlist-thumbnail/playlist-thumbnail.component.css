@@ -1,5 +1,5 @@
 .playlist-thumbnail-area {
-    background-color: rgb(24, 24, 24);
+    background-color: transparent;
     height: 100%;
     width: 100%;
     display: block;
@@ -29,6 +29,8 @@ p {
     display: none;
 }
 .playlist-thumbnail-area:hover {
+    color: rgb(250, 250, 250);
+    cursor: pointer;
     background-color: rgb(61, 61, 61);
 }
 .playlist-thumbnail-area:hover .title-area {

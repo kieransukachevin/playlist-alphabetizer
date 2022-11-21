@@ -1,14 +1,14 @@
-.login-wrapper {
-    height: 50vh;
-    display: flex;
+.login-area {
+    margin: auto;
     justify-content: center;
     align-items: center;
-}
-.login-area {
     display: block;
+}
+.login-area h2 {
+    text-align: center;
 }
 button {
     margin-top: 20px;
-    height: 80px;
-    width: 250px;
+    height: 60px;
+    width: 200px;
 }
