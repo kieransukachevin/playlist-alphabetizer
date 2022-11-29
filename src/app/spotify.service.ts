@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Buffer } from 'buffer';
 import { HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from './../environments/environment';
 
@@ -9,7 +9,7 @@ import { environment } from './../environments/environment';
   providedIn: 'root'
 })
 export class SpotifyService {
-  client_id = '4bf7f8deebef48b2b7de76dfe9f30024'; // Your client id
+  clientId = '4bf7f8deebef48b2b7de76dfe9f30024'; // Your client id
   client_secret = '66c5167e373c4e399de48fff238d191e'; // Your secret
   private redirect_uri = environment.redirect_uri;  // Your redirect uri
   public accessCode: string = '';
@@ -33,7 +33,7 @@ export class SpotifyService {
   }
 
   getClientId() {
-    return this.client_id;
+    return this.clientId;
   }
 
   getLoginStatus() {
@@ -119,7 +119,7 @@ export class SpotifyService {
         this.body.toString(), 
         {headers: new HttpHeaders()
           .set(
-            'Authorization', 'Basic ' + (Buffer.from(this.client_id + ':' + this.client_secret).toString('base64'))
+            'Authorization', 'Basic ' + (Buffer.from(this.clientId + ':' + this.client_secret).toString('base64'))
           )
           .set(
             'Content-Type', 'application/x-www-form-urlencoded'

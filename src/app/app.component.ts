@@ -7,10 +7,9 @@ import { SpotifyService } from './spotify.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'spotify-app';
+  title = 'playlist-alphabetizer';
 
   constructor(private spotifyService: SpotifyService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }
