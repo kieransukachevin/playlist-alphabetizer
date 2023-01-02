@@ -103,7 +103,7 @@ export class SpotifyService {
   }
 
   /**
-  * Retrieve spotify access token
+  * Retrieve spotify access token.
   * 
   * @param code - spotify access code
   */
@@ -136,7 +136,7 @@ export class SpotifyService {
   }
 
   /**
-   * Retrieve user data. Called on successful login
+   * Retrieve user data. Called on successful login.
    */
   async retrieveUserData() {
     await this.http.get(
@@ -156,7 +156,7 @@ export class SpotifyService {
   }
 
   /**
-   * Retrieve user playlists data. Called on successful login
+   * Retrieve user playlists data. Called on successful login.
    */
   async retrievePlaylistsData(url: string) {
       await this.http.get(
@@ -189,13 +189,18 @@ export class SpotifyService {
   }
 
   /**
-   * Load the next set of playlists 
+   * Load the next set of playlists.
    */
   async loadMorePlaylists() {
     await this.retrievePlaylistsData(this.playlists.nextPlaylists);
     this.playlistData.next(this.playlists);
   }
 
+  /**
+   * Retrieve playlist info.
+   * 
+   * @param playlistName - the playlist name.
+   */
   async retrievePlaylistInfo(playlistName: string) {
     this.playlistInfo.next(false);
     var playListId = '';
@@ -215,15 +220,15 @@ export class SpotifyService {
     ).toPromise().then(
       (data: any) => {
         localStorage.setItem('playlistId', data.id);
-        this.playlistInfo.next(data);
+        this.playlistInfo.next(data); // Notify listeners of new data
       }
     )
   }
 
   /**
-   * Retrieve playlist data
+   * Retrieve playlist id.
    * 
-   * @param playlist - the playlist name
+   * @param playlist - the playlist name.
    */
   async retrievePlaylistId(playlist: string) {
     this.playlistId.next(false);
@@ -244,7 +249,7 @@ export class SpotifyService {
     ).toPromise().then(
       (data: any) => {
         localStorage.setItem('playlistId', data.id);
-        this.playlistId.next(localStorage.getItem('playlistId'));
+        this.playlistId.next(localStorage.getItem('playlistId')); // Notify listeners of new id
       }
     )
   }
@@ -292,6 +297,7 @@ export class SpotifyService {
     for (var i = 0; i < size; i++) {
       uris.push(alphabetized[i].track.uri);
     }
+
     await this.replaceTracks(localStorage.getItem('playlistId'), uris);
 
     await this.retrievePlaylistInfo(name);
@@ -299,8 +305,9 @@ export class SpotifyService {
 
   /**
    * Spotify http request to swap tracks in a playlist
-   * 
-   * @param uris
+   *
+   * @param playlistId - playlistId of the playlist to modify. 
+   * @param uris - track uris to add to the playlist.
    */
   async replaceTracks(playlistId: any, uris: any[]) {
     const params = {
