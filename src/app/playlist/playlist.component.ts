@@ -1,7 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SpotifyService } from '../spotify.service';
-import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-playlist',
@@ -13,35 +11,40 @@ export class PlaylistComponent implements OnInit {
   public playlistUrl: string = '';
   public playlistLoaded: boolean = false;
   public playlist = new Array();
+  @ViewChild('pTableCategories') set pTableCategories(element: any) { // Called since elemnent is actively created and destroyed 
+    if (element) {
+      this.interSectionObsv.observe(element.nativeElement);  // Observe table head
+    }
+  }
 
-  constructor(private sanitizer: DomSanitizer, private spotifyService: SpotifyService, private _location: Location) { }
+  /**
+  * Adds a class with box shadow when element intersects top of the window
+  */
+  public interSectionObsv = new IntersectionObserver(
+    ([e]) => {
+      e.target.classList.toggle("is-pinned", e.intersectionRatio < 1);  // "is-pinned" in global styles
+    },
+    { threshold: [1] }
+  );
+
+  constructor(private spotifyService: SpotifyService) { }
 
   async ngOnInit() {
     this.spotifyService.getPlaylistInfo().subscribe((playlist:any) => {
       if (playlist) {
         this.playlistLoaded = true;
         this.playlistName = playlist.name;
-        console.log(playlist);
         this.playlistUrl = playlist.external_urls.spotify;
         this.playlist = playlist.tracks.items;
-        console.log(this.playlist);
       } else {
         this.playlistLoaded = false;
       }
     });
   }
 
-  async alphabetize() {
-    await this.spotifyService.alphabetizePlaylist();
-  }
-
   millisToMinutesAndSeconds(millis: number) {
     var minutes = Math. floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000). toFixed(0);
     return minutes + ':' + seconds;
-  }
-
-  fieldClicked(uri: string) {
-    window.open(uri);
   }
 }

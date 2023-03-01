@@ -1,6 +1,16 @@
-<div style="background-color: transparent;" *ngFor="let playlist of playlists" class="thumbnail-area">
-    <app-playlist-thumbnail [playlist]="playlist"></app-playlist-thumbnail>
+<div class="outer-wrapper">
+    <app-hamburger-menu #toggleButton (click)="toggleReveal()" [hide]="hideOrReveal"></app-hamburger-menu>
+    <div class="inner-wrapper {{hideOrReveal}}">
+        <div #shadowArea class="inset-shadow"></div> <!-- seperate element used for box shadow -->
+        <div #playlistsWrapper class="playlists-area-wrapper">
+            <div *ngFor="let playlist of playlists" class="thumbnail-area">
+                <app-playlist-thumbnail [playlist]="playlist"></app-playlist-thumbnail>
+            </div>
+            <ng-container *ngIf="next">
+                <div class="button-area">
+                    <button (click)="morePlaylistsClick()">Load More Playlists</button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
 </div>
-<ng-container *ngIf="next">
-    <button (click)="morePlaylistsClick()" class="load-button">Load More Playlists</button>
-</ng-container>

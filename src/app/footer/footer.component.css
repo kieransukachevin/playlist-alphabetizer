@@ -1,22 +1,22 @@
-.footer-area {
-    background-color: transparent;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-right: 20%;
-    padding-left: 20%;
-    font-weight: lighter;
-    display: block;
-    justify-content: space-around;
+.footer-wrapper {
+    text-align: center;
+    background-color: var(--content-color);
+    width: 100%;
+    height: var(--profile-size);
+    padding: var(--universal-margin);
 }
-.made-by {
+
+img {
+    max-width: 1rem;
+}
+
+ul {
+    margin: var(--universal-margin);
+    padding: 0;
+    list-style: none;
+}
+
+li {
+    margin: var(--universal-margin);
     display: inline-block;
-    background-color: transparent;
-}
-.github-logo {
-    display: inline-block;
-    background-color: transparent;
-    margin-left: 5px;
-}
-p {
-    background-color: transparent;
 }

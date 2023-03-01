@@ -1,53 +1,99 @@
-/* You can add global styles to this file, and also import other style files */
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap"); /* Open Sans */
+
+/* GENERAL STYLES */
+
+* {
+    /* css variables */
+    --text-color-light: rgb(94, 94, 94);
+    --text-color-bold: rgb(55, 55, 55);
+    --background-color: rgb(224, 224, 224);
+    --content-color: rgb(245, 245, 245);
+    --secondary-color: rgb(84, 143, 84);
+    --hover-opacity: 0.7;
+    --letter-spacing-s: 0.12em;
+    --letter-spacing-m: 0.15em;
+    --letter-spacing-l: 0.2em;
+    --universal-margin: 0.3em;
+    --profile-size: 4em;
+    --transition-speed: 0.2s;
+
+    /* universal styles */
+    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+    border: 0;
+    background-color: transparent;
+    font-weight: lighter;
+    letter-spacing: var(--letter-spacing-s);
+    color: var(--text-color-light);
+    font-size: small;
+}
 
 body {
+    background-color: var(--background-color);
     margin: 0;
 }
-button {
-    background-color: rgb(90, 153, 90);
-    border: 0;
-    min-height: 60px;
-    max-height: 100px;
-    font-size: small;
-}
-button:hover {
-    color: rgb(250, 250, 250);
-    cursor: pointer;
-    background-color: rgb(119, 173, 119);
-}
-button:active {
-    background-color: rgb(90, 153, 90);
-}
-h1 {
-    color: rgb(250, 250, 250);
-    background-color: transparent;
-    letter-spacing: 0.2em;
-    font-weight:normal;
-    font-size: xxx-large;
-}
-h2 {
-    background-color: transparent;
-    font-size: large;
-    letter-spacing: 0.15em;
-    font-weight:normal;
-    text-align: left;
-}
-a {
-    background-color: transparent;
-}
-a:hover {
-    opacity: 0.7;
-}
-* {
-    font-weight: lighter;
-    background-color: rgb(43, 43, 43);
-    text-align: center;
-    font-size: small;
-    color: rgba(250, 250, 250, 0.819);
-    letter-spacing: 0.12em;
-    font-family: "Open Sans", Arial, Helvetica, sans-serif;
+
+p,
+h1,
+h2,
+h3,
+img {
+    margin: var(--universal-margin);
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+h1 {
+    font-size: xx-large;
+    color: var(--text-color-light);
+    letter-spacing: var(--letter-spacing-l);
+    font-weight: normal;
+}
+
+h2 {
+    font-size: large;
+    color: var(--text-color-light);
+    letter-spacing: var(--letter-spacing-m);
+    font-weight: normal;
+}
+
+h3 {
+    font-size: medium;
+    letter-spacing: var(--letter-spacing-m);
+    color: var(--text-color-light);
+    font-weight: normal;
+}
+
+button {
+    color: var(--secondary-color);
+    background-color: var(--content-color);
+    border-radius: var(--universal-margin);
+    text-transform: uppercase;
+    border: solid 1px var(--secondary-color);
+    padding: 1em;
+}
+
+a,
+button {
+    transition: opacity var(--transition-speed);
+    text-decoration: none;
+}
+
+a {
+    color: var(--secondary-color);
+}
+
+hr {
+    margin: 0;
+    height: 1px;
+}
+
+th {
+    letter-spacing: var(--letter-spacing-m);
+    font-weight: normal;
+}
+
+a:hover,
+button:hover {
+    cursor: pointer;
+    opacity: var(--hover-opacity);
+    opacity: var(--hover-opacity);
+}

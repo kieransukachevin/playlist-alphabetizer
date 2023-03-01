@@ -1,16 +1,66 @@
-.load-button {
+.button-area {
+    text-align: center;
+}
+
+.playlists-area-wrapper {
+    max-height: calc(100vh);
+    overflow: auto;
+    width: 20em;
+}
+
+.outer-wrapper {
+    border-radius: var(--universal-margin);
+    margin: var(--universal-margin);
+    position: relative;
+}
+
+/* Styles for the inset shadow on scroll */
+
+.inset-shadow {
+    transition: box-shadow var(--transition-speed);
+    position: absolute;
+    top: 0;
     width: 100%;
-    border-radius: 0;
-    margin: 0;
-    display: block;
 }
-h2 {
-    /* text-align: left; */
-    margin-left: 20px;
+
+.inner-wrapper {
+    position: relative;
 }
-@media (min-width: 768px) and (orientation: landscape) {
-    .thumbnail-area {
-        height: 200px;
-        width: 100%;
+
+.is-scrolled {
+    box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.231);
+}
+
+@media (min-width: 50em) {  /* Landscape */
+    app-hamburger-menu {
+        display: none;
+    }
+
+    .outer-wrapper {
+        z-index: 2;
+        position: sticky;
+        top: 0;
+    }
+}
+
+@media (max-width: 50em) {  /* portrait */
+    .outer-wrapper {
+        position: fixed;
+        top: var(--profile-size);
+        left: 0;
+        z-index: 4;
+    }
+
+    .inner-wrapper {
+        transition: left var(--transition-speed);
+        background-color: var(--background-color);
+    }
+
+    .hide {
+        left: -110%;
+    }
+    
+    .reveal {
+        left: 0;
     }
 }

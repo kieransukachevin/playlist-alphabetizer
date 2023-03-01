@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SpotifyService } from '../spotify.service';
+import { SpotifyService } from '../../spotify.service';
 import { Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 

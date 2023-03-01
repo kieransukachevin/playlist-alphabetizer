@@ -304,9 +304,9 @@ export class SpotifyService {
   }
 
   /**
-   * Spotify http request to swap tracks in a playlist
+   * Removes all tracks in a playlist and replaces them with the new tracks
    *
-   * @param playlistId - playlistId of the playlist to modify. 
+   * @param playlistId - ID of the playlist to modify. 
    * @param uris - track uris to add to the playlist.
    */
   async replaceTracks(playlistId: any, uris: any[]) {

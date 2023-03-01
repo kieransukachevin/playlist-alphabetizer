@@ -1,0 +1,120 @@
+* {
+    --width: 1.5em;
+    --height: 1.5em;
+}
+
+.main-wrapper {
+    width: var(--width);
+    height: var(--height);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--content-color);
+
+    border-radius: var(--universal-margin);
+    border: solid 1px var(--secondary-color);
+    padding: 1em;
+}
+
+/* style a line (border, color, width) */
+
+.line {
+    border: solid var(--secondary-color) 1px;
+    background-color: var(--content-color);
+    width: 100%;
+}
+
+/* style for the second line */
+
+.second {
+    transition: opacity var(--transition-speed);
+}
+
+/* styles for the first and third line */
+
+.first .line,
+.third .line{
+    transform-origin: 55%;
+    animation-duration: var(--transition-speed);
+    animation-fill-mode: both;
+}
+
+/* styles hamburger when header is hidden */
+
+.hide .second {
+    opacity: 0;
+}
+
+.hide .first .line {
+    animation-name: first-rotation-normal;
+    animation-direction: normal;
+}
+
+
+.hide .third .line {
+    animation-name: third-rotation-normal;
+    animation-direction: normal;
+}
+
+/* styles hamburger when header is revealed */
+
+.reveal .second {
+    opacity: 1;
+}
+
+.reveal .first .line {
+    animation-name: first-rotation-reverse;
+    animation-direction: normal;
+}
+
+.reveal .third .line {
+    animation-name: third-rotation-reverse;
+    animation-direction: normal;
+}
+
+/* keyframes for animation */
+
+@keyframes first-rotation-normal {
+    from {
+        translate: 0 0;
+        rotate: 0%;
+    }
+    to {
+        translate: 0 calc(var(--height) / 2);
+        rotate: 45deg;
+    }
+}
+
+@keyframes first-rotation-reverse {
+    to {
+        translate: 0 0;
+        rotate: 0%;
+    }
+    from {
+        translate: 0 calc(var(--height) / 2);
+        rotate: 45deg;
+    }
+}
+
+@keyframes third-rotation-normal {
+    from {
+        translate: 0 0;
+        rotate: 0%;
+    }
+    to {
+        translate: 0 calc(var(--height) / -2);
+        rotate: -45deg;
+    }
+}
+
+@keyframes third-rotation-reverse {
+    to {
+        translate: 0 0;
+        rotate: 0%;
+    }
+    from {
+        translate: 0 calc(var(--height) / -2);
+        rotate: -45deg;
+    }
+}

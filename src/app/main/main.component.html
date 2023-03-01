@@ -1,12 +1,8 @@
-<div class="main-area" *ngIf="loginStatus; else login">
-    <app-profile class="profile-area"></app-profile>
-    <app-playlists-area class="playlists-area"></app-playlists-area>
-    <app-playlist class="playlist-area"></app-playlist>
-    <app-footer class="footer-area"></app-footer>
+<div *ngIf="loginStatus; else login" class="main-wrapper">
+    <app-playlists-area></app-playlists-area>
+    <app-playlist></app-playlist>
+    <app-side-bar></app-side-bar>
 </div>
-<ng-template #login style="display: inline-block; max-width: 50%; height: 90vh">
-    <div class="login-button-area">
-        <app-login-button></app-login-button>
-    </div>
-    <app-footer class="footer-area"></app-footer>
+<ng-template #login>
+    <app-login-button></app-login-button>
 </ng-template>
