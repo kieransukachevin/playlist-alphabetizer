@@ -1,0 +1,19 @@
+.side-bar-wrapper {
+    overflow: auto;
+    margin: var(--universal-margin);
+}
+
+@media (min-width: 50em) {  /* Landscape */
+    .side-bar-wrapper {
+        height: calc(100vh);
+        z-index: 2;
+        position: sticky;
+        top: 0;
+    }
+}
+
+@media (max-width: 50em) {  /* Portrait */
+    .side-bar-wrapper {
+        text-align: center;
+    }
+}

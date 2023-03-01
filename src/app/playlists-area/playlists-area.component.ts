@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { SpotifyService } from '../spotify.service';
 
@@ -13,13 +13,30 @@ export class PlaylistsAreaComponent implements OnInit {
   public next: boolean = false;
   public playlistId: string = "";
   public playlistUrl: SafeUrl = "";
+  public hide = "hide";
+  public reveal = "reveal";
+  public hideOrReveal = this.reveal;
+  @ViewChildren('shadowArea, playlistsWrapper, toggleButton') set viewChildren(elements: any) {
+    if (elements) {
+      const toggleButton = elements._results[0].nativeElement;
+      const shadowArea = elements._results[1].nativeElement;
+      const playlistsWrapper = elements._results[2].nativeElement;
 
-  constructor(private spotifyService: SpotifyService, private sanitizer: DomSanitizer) { }
+
+
+      playlistsWrapper.onscroll = (event: any) => {
+        shadowArea.classList.toggle("is-scrolled", event.target.scrollTop > 0);
+      } 
+    }
+  }
+
+  constructor(private spotifyService: SpotifyService, private sanitizer: DomSanitizer) {}
 
   ngOnInit(): void {
     this.spotifyService.getLoginStatus().subscribe(loginStatus => { // Check if logged in
       this.loginStatus = loginStatus;
     });
+
     this.spotifyService.getPlaylistsData().subscribe(playlistsData => {
       if (playlistsData.nextPlaylists != "") {
         this.next = true;
@@ -32,5 +49,14 @@ export class PlaylistsAreaComponent implements OnInit {
 
   morePlaylistsClick() {
     this.spotifyService.loadMorePlaylists();
+  }
+
+  toggleReveal() {
+    if (this.hideOrReveal == this.hide) {
+      this.hideOrReveal = this.reveal;
+    }
+    else {
+      this.hideOrReveal = this.hide;
+    }
   }
 }

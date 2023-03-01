@@ -8,12 +8,13 @@ import { SpotifyService } from './spotify.service';
 import { LoginButtonComponent } from './login-button/login-button.component';
 import { LoginRedirectComponent } from './login-redirect/login-redirect.component';
 import { MainComponent } from './main/main.component';
-import { LogoutButtonComponent } from './logout-button/logout-button.component';
-import { PlaylistThumbnailComponent } from './playlist-thumbnail/playlist-thumbnail.component';
+import { PlaylistThumbnailComponent } from './playlists-area/playlist-thumbnail/playlist-thumbnail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PlaylistsAreaComponent } from './playlists-area/playlists-area.component';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { FooterComponent } from './footer/footer.component';
+import { SideBarComponent } from './side-bar/side-bar.component';
+import { HamburgerMenuComponent } from './playlists-area/hamburger-menu/hamburger-menu.component';
 
 @NgModule({
   declarations: [
@@ -21,12 +22,13 @@ import { FooterComponent } from './footer/footer.component';
     LoginButtonComponent,
     LoginRedirectComponent,
     MainComponent,
-    LogoutButtonComponent,
     PlaylistThumbnailComponent,
+    HamburgerMenuComponent,
     ProfileComponent,
     PlaylistsAreaComponent,
     PlaylistComponent,
-    FooterComponent
+    FooterComponent,
+    SideBarComponent
   ],
   imports: [
     BrowserModule,

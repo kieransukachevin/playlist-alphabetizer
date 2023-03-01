@@ -1,48 +1,79 @@
-.user-image {
-    display: inline-flex;
-    margin-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    float: left;
-    background-color: transparent;
+.profile-wrapper {
+    padding: var(--universal-margin);
+    display: grid;
+    background-color: var(--content-color);
+    height: var(--profile-size);
+    width: 100%;
 }
-.meta-data {
-    display: inline-block;
-    background-color: transparent;
+
+.profile-section {
+    grid-column: 1;
+    justify-self: flex-start;
+    display: flex;
+    height: var(--profile-size);
 }
-a {
-    background-color: transparent;
+
+.profile-section h3 {
+    margin: auto;
 }
-.title-area {
-    background-color: transparent;
-    display: inline-flex;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-.title {
-    background-color: transparent;
-}
-.title:hover {
-    cursor: pointer;
-    background-color: rgb(61, 61, 61);
-}
-h2 {
-    display: none;
-}
-.user {
-    max-width: 60px;
+
+.profile-section img {
     border-radius: 50%;
 }
-.logout-button {
-    height: 100%;
-    display: inline-flex;
-    float: right;
-    background-color: transparent;
+
+.title-section {
+    justify-self: center;
+    display: flex;
 }
-@media (min-width: 768px) and (orientation: landscape) {
-    h2 {
-        margin-left: 20px;
-        margin-right: 20px;
-        display: block;
+
+.logout-section {
+    justify-self: flex-end;
+    height: var(--profile-size);
+    display: flex;
+}
+
+.logout-section img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.logout-section img:hover,
+.title-section h2:hover {
+    cursor: pointer;
+    opacity: var(--hover-opacity);
+}
+
+h2 {
+    margin-top: auto;
+    margin-bottom: auto;
+    color: var(--secondary-color);
+}
+
+@media (min-width: 50em) {  /* Landscape */
+    .profile-wrapper{
+        grid-template-columns: repeat(3, minmax(100px, 1fr));
+    }
+
+    .title-section {
+        grid-column: 2;
+    }
+
+    .logout-section {
+        grid-column: 3;
+    }
+
+}
+
+@media (max-width: 50em) {  /* Portrait */
+    .profile-wrapper{
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+
+    .title-section {
+        display: none;
+    }
+
+    .logout-section {
+        grid-column: 2;
     }
 }

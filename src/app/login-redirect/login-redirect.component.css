@@ -1,0 +1,4 @@
+.login-redirect-wrapper {
+    text-align: center;
+    height: calc(100vh - 2 * var(--profile-size));
+}

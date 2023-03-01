@@ -13,6 +13,7 @@ export class ProfileComponent implements OnInit {
     name: '',
     spotifyUri: ''
   };
+  public flexSpace = "space-between";
 
   constructor(private spotifyService: SpotifyService) { }
 
@@ -25,8 +26,7 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  playlistAlphabetizerClicked() {
+  logOut() {
     this.spotifyService.logOut();
   }
-
 }
