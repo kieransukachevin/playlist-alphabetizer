@@ -1,4 +1,4 @@
-<div class="playlist-wrapper" *ngIf="playlistLoaded; else loading">
+<section *ngIf="playlistLoaded; else loading">
   <table>
     <thead>
       <tr>
@@ -26,7 +26,7 @@
       </ng-container>
     </tbody>
   </table>
-</div>
+</section>
 <ng-template #loading>
     <div class="loading-area">
         <div class="loader"></div>

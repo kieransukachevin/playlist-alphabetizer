@@ -8,7 +8,7 @@
     width: 20em;
 }
 
-.outer-wrapper {
+section {
     border-radius: var(--universal-margin);
     margin: var(--universal-margin);
     position: relative;
@@ -36,15 +36,15 @@
         display: none;
     }
 
-    .outer-wrapper {
+    section {
         z-index: 2;
         position: sticky;
         top: 0;
     }
 }
 
-@media (max-width: 50em) {  /* portrait */
-    .outer-wrapper {
+@media (max-width: 50em) {  /* Portrait */
+    section {
         position: fixed;
         top: var(--profile-size);
         left: 0;

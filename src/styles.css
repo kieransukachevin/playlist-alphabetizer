@@ -45,7 +45,7 @@ h1 {
     font-size: xx-large;
     color: var(--text-color-light);
     letter-spacing: var(--letter-spacing-l);
-    font-weight: normal;
+    font-weight: bold;
 }
 
 h2 {
@@ -95,5 +95,11 @@ a:hover,
 button:hover {
     cursor: pointer;
     opacity: var(--hover-opacity);
+    opacity: var(--hover-opacity);
+}
+
+button:hover {
+    cursor: pointer;
+    box-shadow: inset 0 0 0 1px var(--secondary-color);
     opacity: var(--hover-opacity);
 }

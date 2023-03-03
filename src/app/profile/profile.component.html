@@ -1,4 +1,4 @@
-<div class="profile-wrapper">
+<header>
     <div *ngIf="loginStatus" class="profile-section">
         <img src="{{userData.image}}">
         <h3>{{userData.name}}</h3>
@@ -10,4 +10,4 @@
         <a href="https://open.spotify.com/"><img src="assets/spotify-icons-logos/logos/01_RGB/02_PNG/Spotify_Logo_RGB_Green.png"></a>
         <button *ngIf="loginStatus" (click)="logOut()">Logout</button>
     </div>
-</div>
+</header>

@@ -1,4 +1,4 @@
-<div class="outer-wrapper">
+<section>
     <app-hamburger-menu #toggleButton (click)="toggleReveal()" [hide]="hideOrReveal"></app-hamburger-menu>
     <div class="inner-wrapper {{hideOrReveal}}">
         <div #shadowArea class="inset-shadow"></div> <!-- seperate element used for box shadow -->
@@ -13,4 +13,4 @@
             </ng-container>
         </div>
     </div>
-</div>
+</section>

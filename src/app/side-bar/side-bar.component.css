@@ -1,10 +1,10 @@
-.side-bar-wrapper {
+aside {
     overflow: auto;
     margin: var(--universal-margin);
 }
 
 @media (min-width: 50em) {  /* Landscape */
-    .side-bar-wrapper {
+    aside {
         height: calc(100vh);
         z-index: 2;
         position: sticky;
@@ -13,7 +13,7 @@
 }
 
 @media (max-width: 50em) {  /* Portrait */
-    .side-bar-wrapper {
+    aside {
         text-align: center;
     }
 }

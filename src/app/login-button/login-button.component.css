@@ -1,4 +1,4 @@
-.login-wrapper {
+section {
     height: calc(100vh - 2 * var(--profile-size));
     display: flex;
     flex-direction: column;
