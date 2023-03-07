@@ -6,22 +6,29 @@
           <a href="{{playlistUrl}}"><h1>{{playlistName}}</h1></a>
         </th>
       </tr>
-      <tr #pTableCategories class="categories">
-        <th></th>
+      <tr #pTableCategories class="sorting-categories">
+        <p>Sort by:</p>
         <th>Track</th>
         <th>Album</th>
         <th>Artist</th>
         <th>Duration</th>
       </tr>
+      <!-- <tr #pTableCategories class="track-categories">
+        <th></th>
+        <th>Track</th>
+        <th>Album</th>
+        <th>Artist</th>
+        <th>Duration</th>
+      </tr> -->
     </thead>
     <tbody>
       <ng-container *ngFor="let song of playlist">
         <tr class="song-row">
-          <td><img src="{{song.track.album.images[2].url}}"></td>
+          <td class="img-cell"><img src="{{song.track.album.images[2].url}}"></td>
           <td><a href="{{song.track.external_urls.spotify}}">{{song.track.name}}</a></td>
           <td><a href="{{song.track.album.external_urls.spotify}}">{{song.track.album.name}}</a></td>
           <td><a href="{{song.track.artists[0].external_urls.spotify}}">{{song.track.artists[0].name}}</a></td>
-          <td>{{millisToMinutesAndSeconds(song.track.duration_ms)}}</td>  
+          <td class="duration-cell">{{millisToMinutesAndSeconds(song.track.duration_ms)}}</td>  
         </tr>
       </ng-container>
     </tbody>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewChildren } from '@angular/core';
 import { SpotifyService } from '../spotify.service';
 
 @Component({
@@ -11,6 +11,7 @@ export class PlaylistComponent implements OnInit {
   public playlistUrl: string = '';
   public playlistLoaded: boolean = false;
   public playlist = new Array();
+
   @ViewChild('pTableCategories') set pTableCategories(element: any) { // Called since elemnent is actively created and destroyed 
     if (element) {
       this.interSectionObsv.observe(element.nativeElement);  // Observe table head

@@ -30,8 +30,8 @@ th {
 
 @media (min-width: 50em) {  /* Landscape */
     .main-wrapper {
-        display: flex;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: min-content auto min-content;
     }
 }
 

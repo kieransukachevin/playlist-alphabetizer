@@ -11,7 +11,6 @@
 section {
     border-radius: var(--universal-margin);
     margin: var(--universal-margin);
-    position: relative;
 }
 
 /* Styles for the inset shadow on scroll */
@@ -21,10 +20,6 @@ section {
     position: absolute;
     top: 0;
     width: 100%;
-}
-
-.inner-wrapper {
-    position: relative;
 }
 
 .is-scrolled {
@@ -45,15 +40,17 @@ section {
 
 @media (max-width: 50em) {  /* Portrait */
     section {
+        transition: left var(--transition-speed);
+        background-color: var(--background-color);       
         position: fixed;
-        top: var(--profile-size);
-        left: 0;
-        z-index: 4;
+        top: calc(var(--profile-size) + 2 * var(--hamburger-size) + var(--universal-margin));
+        z-index: 3;
     }
 
-    .inner-wrapper {
-        transition: left var(--transition-speed);
-        background-color: var(--background-color);
+    app-hamburger-menu {
+        position: fixed;
+        top: var(--profile-size);
+        z-index: 3;
     }
 
     .hide {

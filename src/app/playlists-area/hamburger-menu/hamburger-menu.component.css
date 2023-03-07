@@ -1,11 +1,6 @@
-* {
-    --width: 1.5em;
-    --height: 1.5em;
-}
-
 .main-wrapper {
-    width: var(--width);
-    height: var(--height);
+    width: var(--hamburger-size);
+    height: var(--hamburger-size);
     cursor: pointer;
     display: flex;
     flex-direction: column;
@@ -81,7 +76,7 @@
         rotate: 0%;
     }
     to {
-        translate: 0 calc(var(--height) / 2);
+        translate: 0 calc(var(--hamburger-size) / 2);
         rotate: 45deg;
     }
 }
@@ -92,7 +87,7 @@
         rotate: 0%;
     }
     from {
-        translate: 0 calc(var(--height) / 2);
+        translate: 0 calc(var(--hamburger-size) / 2);
         rotate: 45deg;
     }
 }
@@ -103,7 +98,7 @@
         rotate: 0%;
     }
     to {
-        translate: 0 calc(var(--height) / -2);
+        translate: 0 calc(var(--hamburger-size) / -2);
         rotate: -45deg;
     }
 }
@@ -114,7 +109,7 @@
         rotate: 0%;
     }
     from {
-        translate: 0 calc(var(--height) / -2);
+        translate: 0 calc(var(--hamburger-size) / -2);
         rotate: -45deg;
     }
 }
