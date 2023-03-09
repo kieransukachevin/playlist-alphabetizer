@@ -9,6 +9,7 @@
     --text-color-bold: rgb(55, 55, 55);
     --background-color: rgb(224, 224, 224);
     --content-color: rgb(245, 245, 245);
+    --content-color-darker: rgb(240, 240, 240);
     --secondary-color: rgb(84, 143, 84);
     --hover-opacity: 0.7;
     --letter-spacing-s: 0.12em;

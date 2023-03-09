@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th colspan="5">
-          <a href="{{playlistUrl}}"><h1>{{playlistName}}</h1></a>
+          <a href="{{playlistUrl}}" target="_blank"><h1>{{playlistName}}</h1></a>
         </th>
       </tr>
       <tr #pTableCategories class="sorting-categories">
@@ -25,9 +25,9 @@
       <ng-container *ngFor="let song of playlist">
         <tr class="song-row">
           <td class="img-cell"><img src="{{song.track.album.images[2].url}}"></td>
-          <td><a href="{{song.track.external_urls.spotify}}">{{song.track.name}}</a></td>
-          <td><a href="{{song.track.album.external_urls.spotify}}">{{song.track.album.name}}</a></td>
-          <td><a href="{{song.track.artists[0].external_urls.spotify}}">{{song.track.artists[0].name}}</a></td>
+          <td><a href="{{song.track.external_urls.spotify}}" target="_blank">{{song.track.name}}</a></td>
+          <td><a href="{{song.track.album.external_urls.spotify}}" target="_blank">{{song.track.album.name}}</a></td>
+          <td><a href="{{song.track.artists[0].external_urls.spotify}}" target="_blank">{{song.track.artists[0].name}}</a></td>
           <td class="duration-cell">{{millisToMinutesAndSeconds(song.track.duration_ms)}}</td>  
         </tr>
       </ng-container>
