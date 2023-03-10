@@ -1,6 +1,7 @@
 aside {
     overflow: auto;
     margin: var(--universal-margin);
+    text-align: center;
 }
 
 @media (min-width: 50em) {  /* Landscape */
@@ -9,11 +10,5 @@ aside {
         z-index: 2;
         position: sticky;
         top: 0;
-    }
-}
-
-@media (max-width: 50em) {  /* Portrait */
-    aside {
-        text-align: center;
     }
 }

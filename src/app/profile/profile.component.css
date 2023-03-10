@@ -4,6 +4,7 @@ header {
     background-color: var(--content-color);
     height: var(--profile-size);
     width: 100%;
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
 }
 
 .profile-section {
@@ -22,11 +23,11 @@ header {
 }
 
 .title-section {
-    justify-self: center;
-    display: flex;
+    display: none;  /* Not displayed on mobile */
 }
 
 .logout-section {
+    grid-column: 2;
     justify-self: flex-end;
     height: var(--profile-size);
     display: flex;
@@ -56,24 +57,12 @@ h2 {
 
     .title-section {
         grid-column: 2;
+        justify-self: center;
+        display: flex;
     }
 
     .logout-section {
         grid-column: 3;
     }
 
-}
-
-@media (max-width: 50em) {  /* Portrait */
-    header {
-        grid-template-columns: repeat(2, minmax(100px, 1fr));
-    }
-
-    .title-section {
-        display: none;
-    }
-
-    .logout-section {
-        grid-column: 2;
-    }
 }

@@ -9,8 +9,19 @@
 }
 
 section {
+    background-color: var(--background-color);
     border-radius: var(--universal-margin);
     margin: var(--universal-margin);
+    transition: left var(--transition-speed); 
+    position: fixed;
+    top: calc(var(--profile-size) + 2 * var(--hamburger-size) + var(--universal-margin));
+    z-index: 3;
+}
+
+app-hamburger-menu {
+    position: fixed;
+    top: var(--profile-size);
+    z-index: 3;
 }
 
 /* Styles for the inset shadow on scroll */
@@ -26,38 +37,24 @@ section {
     box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.231);
 }
 
-@media (min-width: 50em) {  /* Landscape */
-    app-hamburger-menu {
-        display: none;
-    }
+/* Styles for a hiding and revealing elements */
 
-    section {
-        z-index: 2;
-        position: sticky;
-        top: 0;
-    }
+.reveal {
+    left: 0;
 }
 
-@media (max-width: 50em) {  /* Portrait */
-    section {
-        transition: left var(--transition-speed);
-        background-color: var(--background-color);       
-        position: fixed;
-        top: calc(var(--profile-size) + 2 * var(--hamburger-size) + var(--universal-margin));
-        z-index: 3;
-    }
+.hide {
+    left: -110%;
+}
 
+@media (min-width: 50em) {  /* Landscape */
     app-hamburger-menu {
-        position: fixed;
-        top: var(--profile-size);
-        z-index: 3;
+        display: none;  /* Do not display in Lansdcape mode */
     }
 
-    .hide {
-        left: -110%;
-    }
-    
-    .reveal {
-        left: 0;
+    section {
+        position: sticky;
+        top: 0;
+        z-index: 2;
     }
 }

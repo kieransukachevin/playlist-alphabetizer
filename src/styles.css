@@ -1,7 +1,10 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap"); /* Open Sans */
 
-/* GENERAL STYLES */
+/* GENERAL STYLES
+ - Designed responsive, mobile first.
+ - Universal styles here, but each component has its own CSS.
+ */
 
 * {
     /* css variables */

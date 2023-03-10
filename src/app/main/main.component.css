@@ -31,13 +31,6 @@ th {
 @media (min-width: 50em) {  /* Landscape */
     .main-wrapper {
         display: grid;
-        grid-template-columns: min-content auto min-content;
+        grid-template-columns: min-content auto min-content;    /* playlists-area, playlist, and side-bar */
     }
 }
-
-@media (max-width: 50em) {  /* Portrait */
-    .main-wrapper {
-        display: block;
-    }
-}
-    

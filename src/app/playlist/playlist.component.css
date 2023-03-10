@@ -108,6 +108,9 @@ td {
 }
 
 @media (min-width: 50em) {  /* Landscape */
+    section {
+        overflow: none;
+    }
 }
 
 @media (max-width: 50em) {  /* Portrait */

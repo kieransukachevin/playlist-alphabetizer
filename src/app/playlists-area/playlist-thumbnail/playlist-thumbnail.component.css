@@ -18,5 +18,3 @@ img {
     width: 30%;
     height: auto;
 }
-
-@media (min-width: 50em) and (orientation: landscape) {}
