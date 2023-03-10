@@ -1,13 +1,13 @@
 <header>
     <div *ngIf="loginStatus" class="profile-section">
-        <img src="{{userData.image}}">
+        <img alt="{{userData.name}} profile photo" src="{{userData.image}}">
         <h3>{{userData.name}}</h3>
     </div>
     <div class="title-section">
         <h2 (click)="logOut()">Playlist Alphabetizer</h2>
     </div>
     <div class="logout-section">
-        <a href="https://open.spotify.com/" target="_blank"><img src="assets/spotify-icons-logos/logos/01_RGB/02_PNG/Spotify_Logo_RGB_Green.png"></a>
+        <a href="https://open.spotify.com/" target="_blank"><img alt="Spotify logo" src="assets/spotify-icons-logos/logos/01_RGB/02_PNG/Spotify_Logo_RGB_Green.png"></a>
         <button *ngIf="loginStatus" (click)="logOut()">Logout</button>
     </div>
 </header>

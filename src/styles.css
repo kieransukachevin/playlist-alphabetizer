@@ -8,12 +8,12 @@
 
 * {
     /* css variables */
-    --text-color-light: rgb(94, 94, 94);
-    --text-color-bold: rgb(55, 55, 55);
+    --text-color-light: rgb(75, 75, 75);
+    --text-color-bold: rgb(39, 39, 39);
     --background-color: rgb(224, 224, 224);
     --content-color: rgb(245, 245, 245);
     --content-color-darker: rgb(240, 240, 240);
-    --secondary-color: rgb(84, 143, 84);
+    --secondary-color: rgb(51, 123, 51);
     --hover-opacity: 0.7;
     --letter-spacing-s: 0.12em;
     --letter-spacing-m: 0.15em;

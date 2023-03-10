@@ -24,7 +24,7 @@
     <tbody>
       <ng-container *ngFor="let song of playlist">
         <tr class="song-row">
-          <td class="img-cell"><img src="{{song.track.album.images[2].url}}"></td>
+          <td class="img-cell"><img alt="{{song.track.name}} cover photo" src="{{song.track.album.images[2].url}}"></td>
           <td><a href="{{song.track.external_urls.spotify}}" target="_blank">{{song.track.name}}</a></td>
           <td><a href="{{song.track.album.external_urls.spotify}}" target="_blank">{{song.track.album.name}}</a></td>
           <td><a href="{{song.track.artists[0].external_urls.spotify}}" target="_blank">{{song.track.artists[0].name}}</a></td>

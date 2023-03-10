@@ -31,7 +31,7 @@ export class PlaylistComponent implements OnInit {
   constructor(private spotifyService: SpotifyService) { }
 
   async ngOnInit() {
-    this.spotifyService.getPlaylistInfo().subscribe((playlist:any) => {
+    this.spotifyService.playlistInfo.subscribe((playlist:any) => {
       if (playlist) {
         this.playlistLoaded = true;
         this.playlistName = playlist.name;

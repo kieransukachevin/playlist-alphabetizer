@@ -22,7 +22,7 @@ export class LoginButtonComponent implements OnInit {
       document.location.href = ('https://accounts.spotify.com/authorize?' +
       queryString.stringify({
         response_type: 'code',
-        client_id: this.spotifyService.getClientId(),
+        client_id: this.spotifyService.clientId,
         scope: this.scope,
         redirect_uri: this.redirect_uri,
         state: this.spotifyService.generateRandomString(16)

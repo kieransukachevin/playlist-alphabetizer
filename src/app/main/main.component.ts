@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   constructor(private spotifyService: SpotifyService) {}
 
   ngOnInit(): void {
-    this.spotifyService.getLoginStatus().subscribe(loginStatus => { // Check if logged in
+    this.spotifyService.loginStatus.subscribe(loginStatus => { // Check if logged in
       this.loginStatus = loginStatus;
     });
   }

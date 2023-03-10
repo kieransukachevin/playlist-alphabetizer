@@ -9,18 +9,18 @@ import { environment } from './../environments/environment';
   providedIn: 'root'
 })
 export class SpotifyService {
-  client_id = '4bf7f8deebef48b2b7de76dfe9f30024'; // Your client id
-  client_secret = '66c5167e373c4e399de48fff238d191e'; // Your secret
+  _client_id = '4bf7f8deebef48b2b7de76dfe9f30024'; // Your client id
+  _client_secret = '66c5167e373c4e399de48fff238d191e'; // Your secret
   private redirect_uri = environment.redirect_uri;  // Your redirect uri
   public accessCode: string = '';
   private refreshToken: string = '';
   body = new URLSearchParams();
 
-  private loginStatus = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks login status
-  private userData = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks user data
-  private playlistData = new BehaviorSubject<any>(false); // BehaviorSubject which tracks playlist data
-  private playlistId = new BehaviorSubject<any>(false); // BehaviorSubject which tracks current playlist
-  private playlistInfo = new BehaviorSubject<any>(false); // BehaviorSubject which tracks current playlist info
+  private _loginStatus = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks login status
+  private _userData = new BehaviorSubject<any>(false);  // BehaviorSubject which tracks user data
+  private _playlistData = new BehaviorSubject<any>(false); // BehaviorSubject which tracks playlist data
+  private _playlistId = new BehaviorSubject<any>(false); // BehaviorSubject which tracks current playlist
+  private _playlistInfo = new BehaviorSubject<any>(false); // BehaviorSubject which tracks current playlist info
 
   private playlists = {nextPlaylists: '', playlists: <any>[]};
 
@@ -32,28 +32,28 @@ export class SpotifyService {
     }
   }
 
-  getClientId() {
-    return this.client_id;
+  get clientId() {
+    return this._client_id;
   }
 
-  getLoginStatus() {
-    return this.loginStatus;
+  get loginStatus() {
+    return this._loginStatus;
   }
 
-  getUserData() {
-    return this.userData;
+  get userData() {
+    return this._userData;
   }
 
-  getPlaylistsData() {
-    return this.playlistData;
+  get playlistData() {
+    return this._playlistData;
   }
 
-  getPlaylistId() {
-    return this.playlistId;
+  get playlistId() {
+    return this._playlistId;
   }
 
-  getPlaylistInfo() {
-    return this.playlistInfo;
+  get playlistInfo() {
+    return this._playlistInfo;
   }
 
   /**
@@ -119,7 +119,7 @@ export class SpotifyService {
         this.body.toString(), 
         {headers: new HttpHeaders()
           .set(
-            'Authorization', 'Basic ' + (Buffer.from(this.client_id + ':' + this.client_secret).toString('base64'))
+            'Authorization', 'Basic ' + (Buffer.from(this._client_id + ':' + this._client_secret).toString('base64'))
           )
           .set(
             'Content-Type', 'application/x-www-form-urlencoded'
@@ -178,7 +178,7 @@ export class SpotifyService {
               {
                 id: data.items[i].id,
                 name: data.items[i].name,
-                image: data.items[i].images[0].url,
+                image: data.items[i].images[1] ? data.items[i].images[1].url : data.items[i].images[0].url,
                 url: data.items[i].external_urls.spotify,
                 track_total: data.items[i].tracks.total
               }

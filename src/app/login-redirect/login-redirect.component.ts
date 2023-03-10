@@ -20,7 +20,7 @@ export class LoginRedirectComponent implements OnInit {
         this.accessCode = params.code
       });
 
-      this.spotifyService.getLoginStatus().subscribe(status => { // Redirect on successful login
+      this.spotifyService.loginStatus.subscribe(status => { // Redirect on successful login
         if (status === true) {
           this.router.navigate(['']);
         }
